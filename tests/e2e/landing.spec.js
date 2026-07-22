@@ -18,7 +18,7 @@ test('renders the approved brand, content journey and primary conversion', async
   expect(orderedHeadings).toEqual([
     expect.stringContaining('estar em um lugar só'),
     expect.stringContaining('Atendimento sem limite'),
-    expect.stringContaining('lead pronto'),
+    expect.stringContaining('Experimente a Margot'),
     expect.stringContaining('tamanho da sua operação'),
     expect.stringContaining('Antes de você perguntar'),
     expect.stringContaining('único ponto de atendimento'),
@@ -26,7 +26,10 @@ test('renders the approved brand, content journey and primary conversion', async
 });
 
 test('switches plan prices and keeps the plan CTA contextual', async ({ page }) => {
-  await page.getByRole('button', { name: 'Mensal' }).click();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const pricing = page.locator('#planos');
+  await pricing.scrollIntoViewIfNeeded();
+  await pricing.getByRole('button', { name: 'Mensal' }).click();
 
   await expect(page.locator('[data-plan="silver"] [data-price]')).toHaveText('R$ 447');
   await expect(page.locator('[data-plan="gold"] [data-price]')).toHaveText('R$ 547');
@@ -76,6 +79,8 @@ test('has no horizontal overflow and manages the mobile WhatsApp CTA', async ({ 
   await expect(sticky).toBeHidden();
   await page.locator('#problema').scrollIntoViewIfNeeded();
   await expect(sticky).toBeVisible();
+  await page.locator('[data-interactive-demo]').scrollIntoViewIfNeeded();
+  await expect(sticky).toBeHidden();
   await page.locator('[data-final-cta]').scrollIntoViewIfNeeded();
   await expect(sticky).toBeHidden();
 });
@@ -114,4 +119,69 @@ test('publishes valid robots directives for search crawlers', async ({ request }
   expect(response.ok()).toBe(true);
   expect(response.headers()['content-type']).toContain('text/plain');
   expect(await response.text()).toBe('User-agent: *\nAllow: /\n');
+});
+
+test('qualifies a lead through the interactive Margot journey', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  const demo = page.locator('[data-interactive-demo]');
+
+  await demo.getByRole('button', { name: 'Começar simulação' }).focus();
+  await page.keyboard.press('Enter');
+  await demo.getByRole('button', { name: 'Morar', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await demo.getByRole('button', { name: 'Até R$ 450 mil', exact: true }).click();
+  await demo.getByRole('button', { name: 'Quero visitar esta semana', exact: true }).click();
+
+  await expect(demo).toHaveAttribute('data-demo-state', 'complete');
+  await expect(demo.locator('[data-demo-field="objective"]')).toHaveText('Morar');
+  await expect(demo.locator('[data-demo-field="temperature"]')).toHaveText('Quente');
+  await expect(demo.locator('[data-demo-column="qualified"] [data-demo-lead-card]')).toBeVisible();
+  await expect(demo.getByRole('link', { name: 'Quero isso no meu atendimento' })).toHaveAttribute(
+    'href',
+    /wa\.me\/5548999998888/,
+  );
+});
+
+test('supports an alternate demo path and a clean restart', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  const demo = page.locator('[data-interactive-demo]');
+
+  await demo.getByRole('button', { name: 'Começar simulação' }).click();
+  await demo.getByRole('button', { name: 'Investir', exact: true }).click();
+  await demo.getByRole('button', { name: 'Acima de R$ 700 mil', exact: true }).click();
+  await demo.getByRole('button', { name: 'Ainda estou pesquisando', exact: true }).click();
+  await expect(demo.locator('[data-demo-field="temperature"]')).toHaveText('Morno');
+  await expect(demo.locator('[data-demo-field="nextAction"]')).toHaveText('Enviar opções semelhantes');
+
+  await demo.getByRole('button', { name: 'Reiniciar simulação' }).click();
+  await expect(demo).toHaveAttribute('data-demo-state', 'idle');
+  await expect(demo.locator('[data-demo-field="objective"]')).toHaveText('—');
+  await expect(demo.getByRole('button', { name: 'Começar simulação' })).toBeVisible();
+});
+
+test('exposes keyboard-operated demo tabs on mobile', async ({ page }) => {
+  if (page.viewportSize().width > 480) return;
+  const chatTab = page.getByRole('tab', { name: 'Conversa' });
+  const crmTab = page.getByRole('tab', { name: 'CRM' });
+
+  await chatTab.focus();
+  await page.keyboard.press('ArrowRight');
+
+  await expect(crmTab).toHaveAttribute('aria-selected', 'true');
+  await expect(crmTab).toBeFocused();
+  await expect(page.locator('[data-demo-panel="crm"]')).toBeVisible();
+});
+
+test('keeps the three-step explanation as the no-JavaScript fallback', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto('/');
+
+  await expect(page.locator('[data-demo-fallback]')).toBeVisible();
+  await expect(page.locator('[data-demo-fallback] > li')).toHaveCount(3);
+  await expect(page.locator('[data-interactive-demo]')).toBeHidden();
+
+  await context.close();
 });

@@ -109,6 +109,10 @@
               <svg aria-hidden="true" viewBox="0 0 20 20"><path d="m5 10 3 3 7-7" /></svg>
               Sem limite de conversas nos dois planos
             </p>
+            <a class="hero-demo-link" href="#como-funciona">
+              Testar a Margot na prática
+              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="m5 7 5 5 5-5" /></svg>
+            </a>
           </div>
 
           <div class="hero-proof hero-enter hero-enter-delay" aria-label="Demonstração de uma conversa da Margot organizada no CRM">
@@ -254,12 +258,109 @@
       <section class="section workflow-section" id="como-funciona">
         <div class="container">
           <div class="workflow-heading" data-reveal>
-            <span class="eyebrow eyebrow-dark">Como funciona</span>
-            <h2>Do primeiro “oi” até o lead pronto pra fechar</h2>
-            <p>Você entra na conversa com contexto, prioridade e próximos passos claros.</p>
+            <span class="eyebrow eyebrow-dark">Simulação interativa</span>
+            <h2>Experimente a Margot na prática</h2>
+            <p>Responda como um lead e veja a conversa virar contexto, prioridade e próxima ação no CRM.</p>
+            <span class="demo-privacy-note">
+              <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M10 3 4.5 5v4.4c0 3.5 2.3 6.6 5.5 7.6 3.2-1 5.5-4.1 5.5-7.6V5L10 3Z" /><path d="m7.7 10 1.5 1.5 3.2-3.4" /></svg>
+              Simulação local: nenhuma resposta é enviada ou armazenada.
+            </span>
           </div>
 
-          <ol class="workflow" data-reveal>
+          <div class="interactive-demo" data-interactive-demo data-demo-state="idle" data-demo-transitioning="false" hidden>
+            <span class="sr-only" data-demo-live aria-live="polite"></span>
+
+            <div class="demo-window-bar">
+              <div class="demo-product-title">
+                <span class="demo-product-mark" aria-hidden="true">P</span>
+                <div><strong>PiperKey Solo</strong><small>Atendimento e CRM conectados</small></div>
+              </div>
+              <div class="demo-progress-wrap">
+                <div class="demo-progress-copy">
+                  <span>Qualificação</span><strong data-demo-progress-label>Pronta para começar</strong>
+                </div>
+                <div class="demo-progress" data-demo-progress aria-hidden="true"><span data-demo-progress-bar></span></div>
+              </div>
+              <button class="demo-restart" type="button" data-demo-restart hidden>
+                <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 7V3m0 0h4M4 3l3 3a6 6 0 1 1-1.3 6.5" /></svg>
+                Reiniciar simulação
+              </button>
+            </div>
+
+            <div class="demo-mobile-tabs" role="tablist" aria-label="Telas da simulação">
+              <button id="demo-tab-chat" type="button" role="tab" aria-selected="true" aria-controls="demo-panel-chat" tabindex="0" data-demo-tab="chat">Conversa</button>
+              <button id="demo-tab-crm" type="button" role="tab" aria-selected="false" aria-controls="demo-panel-crm" tabindex="-1" data-demo-tab="crm">CRM</button>
+            </div>
+
+            <div class="demo-product-grid">
+              <section class="demo-panel demo-chat-panel is-active" id="demo-panel-chat" role="tabpanel" aria-labelledby="demo-tab-chat" data-demo-panel="chat">
+                <header class="demo-panel-header">
+                  <div class="margot-avatar">M</div>
+                  <div><strong>Margot</strong><small><span></span> respondendo agora</small></div>
+                  <span class="demo-channel">WhatsApp</span>
+                </header>
+                <div class="demo-property-context">
+                  <span class="demo-property-thumb" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11M8 20v-6h8v6M9 10h.01M15 10h.01" /></svg>
+                  </span>
+                  <div><strong>Apartamento · 2 quartos</strong><small>Centro · Florianópolis</small></div>
+                  <span>R$ 430 mil</span>
+                </div>
+                <div class="demo-transcript" data-demo-transcript aria-label="Conversa simulada"></div>
+                <div class="demo-replies" data-demo-options role="group" aria-label="Escolha uma resposta"></div>
+                <div class="demo-start-wrap">
+                  <button class="button button-gold" type="button" data-demo-start>
+                    Começar simulação
+                    <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>
+                  </button>
+                  <small>Você responde como um lead. Leva menos de 1 minuto.</small>
+                </div>
+              </section>
+
+              <section class="demo-panel demo-crm-panel" id="demo-panel-crm" role="tabpanel" aria-labelledby="demo-tab-crm" data-demo-panel="crm">
+                <header class="demo-panel-header demo-crm-header">
+                  <div><span class="demo-app-icon" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M4 5h12M4 10h12M4 15h8" /></svg></span><strong>CRM · Lead Mariana</strong></div>
+                  <span class="demo-sync"><i></i> Sincronizado</span>
+                </header>
+
+                <div class="demo-profile" aria-label="Perfil qualificado do lead">
+                  <div><span>Objetivo</span><strong data-demo-field="objective">—</strong></div>
+                  <div><span>Região</span><strong data-demo-field="region">Centro</strong></div>
+                  <div><span>Orçamento</span><strong data-demo-field="budget">—</strong></div>
+                  <div><span>Urgência</span><strong data-demo-field="urgency">—</strong></div>
+                  <div><span>Temperatura</span><strong data-demo-field="temperature">Novo</strong></div>
+                  <div class="demo-next-action"><span>Próxima ação</span><strong data-demo-field="nextAction">Aguardando qualificação</strong></div>
+                </div>
+
+                <div class="demo-pipeline" aria-label="Funil do CRM">
+                  <div class="demo-column" data-demo-column="new">
+                    <div class="demo-column-head"><span><i></i> Novos</span><b data-demo-count="new">1</b></div>
+                    <article class="demo-lead-card" data-demo-lead-card>
+                      <div class="demo-lead-top">
+                        <span class="demo-lead-avatar">MB</span>
+                        <div><strong>Mariana Barbosa</strong><small>Instagram · agora</small></div>
+                        <span class="demo-card-status" data-demo-card-status>Novo</span>
+                      </div>
+                      <p>Interesse em apartamento no Centro</p>
+                      <div class="demo-lead-meta"><span>2 quartos</span><span>R$ 430 mil</span></div>
+                    </article>
+                    <p class="demo-empty-copy">Novos contatos aparecem aqui.</p>
+                  </div>
+                  <div class="demo-column demo-column-qualified" data-demo-column="qualified">
+                    <div class="demo-column-head"><span><i></i> Qualificados</span><b data-demo-count="qualified">0</b></div>
+                    <p class="demo-empty-copy">A Margot move o lead quando conclui o perfil.</p>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div class="demo-complete" data-demo-complete hidden>
+              <div><span aria-hidden="true">✓</span><p><strong>Lead qualificado e pronto no CRM.</strong> Você entra sabendo o que ele quer e qual é o próximo passo.</p></div>
+              <a class="button button-gold" href="https://wa.me/%VITE_WHATSAPP_NUMBER%?text=Ol%C3%A1%21%20Conclu%C3%AD%20a%20simula%C3%A7%C3%A3o%20da%20Margot%20e%20quero%20conhecer%20o%20PiperKey%20Solo." data-cta="whatsapp" data-placement="interactive_demo">Quero isso no meu atendimento</a>
+            </div>
+          </div>
+
+          <ol class="workflow demo-fallback" data-demo-fallback data-reveal>
             <li class="workflow-step">
               <span class="step-number">01</span>
               <div class="step-visual chat-mini" aria-hidden="true">

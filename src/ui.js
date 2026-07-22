@@ -147,14 +147,17 @@ export function initializeScrollDepth({
 
 export function initializeMobileCta({ root, windowRef }) {
   const hero = root.querySelector('[data-hero]');
+  const interactiveDemo = root.querySelector('[data-interactive-demo]');
   const finalCta = root.querySelector('[data-final-cta]');
   const mobileCta = root.querySelector('[data-mobile-cta]');
 
   function update() {
     if (!hero || !finalCta || !mobileCta) return;
     const passedHero = hero.getBoundingClientRect().bottom < 0;
+    const demoRect = interactiveDemo?.getBoundingClientRect();
+    const demoInView = demoRect ? demoRect.top < windowRef.innerHeight && demoRect.bottom > 0 : false;
     const reachedFinalCta = finalCta.getBoundingClientRect().top <= windowRef.innerHeight;
-    mobileCta.hidden = !passedHero || reachedFinalCta;
+    mobileCta.hidden = !passedHero || demoInView || reachedFinalCta;
   }
 
   windowRef.addEventListener?.('scroll', update, { passive: true });

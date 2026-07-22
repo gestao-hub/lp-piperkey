@@ -164,14 +164,17 @@ describe('scroll behavior', () => {
     expect(track).toHaveBeenCalledTimes(2);
   });
 
-  test('shows the mobile CTA only between the hero and final CTA', () => {
+  test('shows the mobile CTA only between the hero and final CTA, outside the interactive demo', () => {
     document.body.innerHTML = `
       <section data-hero></section>
+      <section data-interactive-demo></section>
       <a data-mobile-cta hidden>WhatsApp</a>
       <section data-final-cta></section>`;
     const hero = document.querySelector('[data-hero]');
+    const interactiveDemo = document.querySelector('[data-interactive-demo]');
     const finalCta = document.querySelector('[data-final-cta]');
     hero.getBoundingClientRect = vi.fn(() => ({ bottom: -10 }));
+    interactiveDemo.getBoundingClientRect = vi.fn(() => ({ top: 900, bottom: 1500 }));
     finalCta.getBoundingClientRect = vi.fn(() => ({ top: 1200 }));
     Object.defineProperty(window, 'innerHeight', { value: 800, configurable: true });
 
@@ -179,6 +182,11 @@ describe('scroll behavior', () => {
     sticky.update();
     expect(document.querySelector('[data-mobile-cta]').hidden).toBe(false);
 
+    interactiveDemo.getBoundingClientRect = vi.fn(() => ({ top: 100, bottom: 900 }));
+    sticky.update();
+    expect(document.querySelector('[data-mobile-cta]').hidden).toBe(true);
+
+    interactiveDemo.getBoundingClientRect = vi.fn(() => ({ top: -900, bottom: -100 }));
     finalCta.getBoundingClientRect = vi.fn(() => ({ top: 700 }));
     sticky.update();
     expect(document.querySelector('[data-mobile-cta]').hidden).toBe(true);
