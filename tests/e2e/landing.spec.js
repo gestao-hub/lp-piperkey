@@ -16,13 +16,35 @@ test('renders the approved brand, content journey and primary conversion', async
 
   const orderedHeadings = await page.locator('main h2').allTextContents();
   expect(orderedHeadings).toEqual([
-    expect.stringContaining('estar em um lugar só'),
+    expect.stringContaining('cliente não sabe que você está ocupado'),
     expect.stringContaining('Atendimento sem limite'),
     expect.stringContaining('Experimente a Margot'),
     expect.stringContaining('tamanho da sua operação'),
     expect.stringContaining('Antes de você perguntar'),
-    expect.stringContaining('único ponto de atendimento'),
+    expect.stringContaining('disponível o tempo todo'),
   ]);
+});
+
+test('renders the approved problem and final CTA copy exactly', async ({ page }) => {
+  const problem = page.locator('#problema');
+  await expect(problem.getByRole('heading', { level: 2 })).toHaveText(
+    'O cliente não sabe que você está ocupado. Ele só sabe que ninguém respondeu.',
+  );
+  await expect(problem.locator('.section-heading > p')).toContainText(
+    'Toda vez que seu celular fica sem resposta, alguém está vendendo no seu lugar.',
+  );
+  await expect(problem.locator('.section-heading > p')).toContainText(
+    'Enquanto você visita um imóvel, negocia ou dirige, a Margot continua atendendo, qualificando e mantendo cada oportunidade viva.',
+  );
+
+  const finalCta = page.locator('[data-final-cta]');
+  await expect(finalCta.locator('.eyebrow')).toHaveText('Seu próximo lead não vai esperar.');
+  await expect(finalCta.getByRole('heading', { level: 2 })).toHaveText(
+    'Você não precisa estar disponível o tempo todo para continuar atendendo bem.',
+  );
+  await expect(finalCta.locator('.final-cta-inner > p').first()).toHaveText(
+    'Agende 15 minutos e veja a Margot funcionando em uma operação parecida com a sua.',
+  );
 });
 
 test('switches plan prices and keeps the plan CTA contextual', async ({ page }) => {
