@@ -3,6 +3,7 @@ import {
   PLANS,
   buildGeneralWhatsAppUrl,
   buildPlanWhatsAppUrl,
+  buildWhatsAppUrl,
   formatPrice,
 } from './config.js';
 import { CONSENT_STATUS } from './consent.js';
@@ -85,7 +86,10 @@ export function initializeCtas({ root, config, track }) {
   });
 
   root.querySelectorAll('[data-cta="demo"]').forEach((link) => {
-    link.href = config.demoUrl;
+    link.href = buildWhatsAppUrl({
+      number: config.whatsappNumber,
+      message: 'Olá! Quero agendar uma demonstração do PiperKey Solo.',
+    });
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.addEventListener('click', () => {

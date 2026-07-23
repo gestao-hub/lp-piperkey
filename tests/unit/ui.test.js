@@ -87,7 +87,7 @@ describe('FAQ accordion', () => {
 });
 
 describe('CTA links', () => {
-  test('assigns real destinations and tracks WhatsApp/demo clicks by position', () => {
+  test('routes general and demo CTAs to WhatsApp and tracks clicks by intent', () => {
     document.body.innerHTML = `
       <a data-cta="whatsapp" data-placement="hero" href="#contato">WhatsApp</a>
       <a data-cta="demo" data-placement="hero" href="#demo">Demo</a>`;
@@ -105,7 +105,10 @@ describe('CTA links', () => {
     const whatsapp = document.querySelector('[data-cta="whatsapp"]');
     const demo = document.querySelector('[data-cta="demo"]');
     expect(whatsapp.href).toContain('https://wa.me/5548999998888');
-    expect(demo.href).toBe('https://cal.com/piperkey/demo');
+    expect(demo.href).toContain('https://wa.me/5548999998888');
+    expect(new URL(demo.href).searchParams.get('text')).toBe(
+      'Olá! Quero agendar uma demonstração do PiperKey Solo.',
+    );
     whatsapp.click();
     demo.click();
     expect(track).toHaveBeenCalledWith('cta_whatsapp', { position: 'hero' });

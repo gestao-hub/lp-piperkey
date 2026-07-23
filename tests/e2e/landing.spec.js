@@ -125,7 +125,7 @@ test('keeps annual prices and essential contact links usable without JavaScript'
   );
   await expect(page.getByRole('link', { name: /Agendar demonstração/i }).first()).toHaveAttribute(
     'href',
-    'https://cal.com/piperkey/demo',
+    /wa\.me\/5548999998888.*agendar.*demonstra%C3%A7%C3%A3o/i,
   );
   await expect(page.getByRole('link', { name: 'Escolher Gold' })).toHaveAttribute(
     'href',
