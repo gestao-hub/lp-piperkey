@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 const testEnv = {
   ...process.env,
-  VITE_WHATSAPP_NUMBER: '5548999998888',
+  VITE_WHATSAPP_NUMBER: '5548988049222',
   VITE_DEMO_URL: 'https://cal.com/piperkey/demo',
   VITE_SITE_URL: 'http://127.0.0.1:5178',
   VITE_GA4_ID: 'G-TEST123456',

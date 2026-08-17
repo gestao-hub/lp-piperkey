@@ -11,7 +11,7 @@ test('renders the approved brand, content journey and primary conversion', async
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Você é um corretor só');
   await expect(page.getByRole('link', { name: /Falar no WhatsApp/i }).first()).toHaveAttribute(
     'href',
-    /wa\.me\/5548999998888/,
+    /wa\.me\/5548988049222/,
   );
 
   const orderedHeadings = await page.locator('main h2').allTextContents();
@@ -121,15 +121,15 @@ test('keeps annual prices and essential contact links usable without JavaScript'
   await expect(page.locator('[data-plan="silver"] [data-price]')).toHaveText('R$\u00a0397');
   await expect(page.getByRole('link', { name: /Falar no WhatsApp/i }).first()).toHaveAttribute(
     'href',
-    /wa\.me\/5548999998888/,
+    /wa\.me\/5548988049222/,
   );
   await expect(page.getByRole('link', { name: /Agendar demonstração/i }).first()).toHaveAttribute(
     'href',
-    /wa\.me\/5548999998888.*agendar.*demonstra%C3%A7%C3%A3o/i,
+    /wa\.me\/5548988049222.*agendar.*demonstra%C3%A7%C3%A3o/i,
   );
   await expect(page.getByRole('link', { name: 'Escolher Gold' })).toHaveAttribute(
     'href',
-    /wa\.me\/5548999998888.*Gold.*anual/,
+    /wa\.me\/5548988049222.*Gold.*anual/,
   );
 
   await context.close();
@@ -161,7 +161,7 @@ test('qualifies a lead through the interactive Margot journey', async ({ page })
   await expect(demo.locator('[data-demo-column="qualified"] [data-demo-lead-card]')).toBeVisible();
   await expect(demo.getByRole('link', { name: 'Quero isso no meu atendimento' })).toHaveAttribute(
     'href',
-    /wa\.me\/5548999998888/,
+    /wa\.me\/5548988049222/,
   );
 });
 
