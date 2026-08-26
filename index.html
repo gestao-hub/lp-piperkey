@@ -43,23 +43,7 @@
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
         "description": "Atendimento com IA, CRM, site e integrações para corretores autônomos.",
-        "url": "%VITE_SITE_URL%/",
-        "offers": [
-          {
-            "@type": "Offer",
-            "name": "PiperKey Solo Silver",
-            "price": "397",
-            "priceCurrency": "BRL",
-            "description": "Valor mensal no plano anual."
-          },
-          {
-            "@type": "Offer",
-            "name": "PiperKey Solo Gold",
-            "price": "497",
-            "priceCurrency": "BRL",
-            "description": "Valor mensal no plano anual."
-          }
-        ]
+        "url": "%VITE_SITE_URL%/"
       }
     </script>
     <link rel="stylesheet" href="/src/styles.css" />
@@ -76,7 +60,6 @@
         <nav class="desktop-nav" aria-label="Navegação principal">
           <a href="#solucao">Solução</a>
           <a href="#como-funciona">Como funciona</a>
-          <a href="#planos">Planos</a>
           <a href="#faq">FAQ</a>
         </nav>
         <a class="button button-gold header-cta" href="https://wa.me/%VITE_WHATSAPP_NUMBER%?text=Ol%C3%A1%21%20Quero%20conhecer%20o%20PiperKey%20Solo." data-cta="whatsapp" data-placement="nav">
@@ -107,7 +90,7 @@
             </div>
             <p class="hero-note">
               <svg aria-hidden="true" viewBox="0 0 20 20"><path d="m5 10 3 3 7-7" /></svg>
-              Sem limite de conversas nos dois planos
+              Atendimento contínuo, mesmo quando você está ocupado
             </p>
             <a class="hero-demo-link" href="#como-funciona">
               Testar a Margot na prática
@@ -126,7 +109,7 @@
               <div class="conversation-body">
                 <p class="message message-lead">Oi, vi o apto de 2 quartos no Centro. Ainda está disponível?</p>
                 <p class="message message-margot">Está sim! É para morar ou investir, e qual faixa você procura?</p>
-                <p class="message message-lead">Pra morar, até uns 450 mil.</p>
+                <p class="message message-lead">Pra morar, dentro da faixa que estou buscando.</p>
                 <p class="message message-margot">Perfeito. Já organizei seu perfil e separei os próximos passos.</p>
               </div>
             </div>
@@ -141,7 +124,7 @@
               <dl class="lead-data">
                 <div><dt>Objetivo</dt><dd>Morar</dd></div>
                 <div><dt>Região</dt><dd>Centro</dd></div>
-                <div><dt>Faixa</dt><dd>até R$ 450 mil</dd></div>
+                <div><dt>Perfil</dt><dd>Faixa definida</dd></div>
               </dl>
             </div>
             <div class="response-badge">
@@ -249,7 +232,7 @@
                 <span class="capability-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24"><path d="m4 12 5 5L20 6M5 5h5M14 19h5" /></svg>
                 </span>
-                <div><h3>Radar de Matches <small>Gold</small></h3><p>Cruze novos imóveis com leads frios da sua base.</p></div>
+                <div><h3>Radar de Matches</h3><p>Cruze novos imóveis com leads frios da sua base.</p></div>
               </article>
             </div>
           </div>
@@ -305,7 +288,7 @@
                     <svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11M8 20v-6h8v6M9 10h.01M15 10h.01" /></svg>
                   </span>
                   <div><strong>Apartamento · 2 quartos</strong><small>Centro · Florianópolis</small></div>
-                  <span>R$ 430 mil</span>
+                  <span>Faixa compatível</span>
                 </div>
                 <div class="demo-transcript" data-demo-transcript aria-label="Conversa simulada"></div>
                 <div class="demo-replies" data-demo-options role="group" aria-label="Escolha uma resposta"></div>
@@ -343,7 +326,7 @@
                         <span class="demo-card-status" data-demo-card-status>Novo</span>
                       </div>
                       <p>Interesse em apartamento no Centro</p>
-                      <div class="demo-lead-meta"><span>2 quartos</span><span>R$ 430 mil</span></div>
+                      <div class="demo-lead-meta"><span>2 quartos</span><span>Faixa compatível</span></div>
                     </article>
                     <p class="demo-empty-copy">Novos contatos aparecem aqui.</p>
                   </div>
@@ -373,7 +356,7 @@
             <li class="workflow-step">
               <span class="step-number">02</span>
               <div class="step-visual qualify-mini" aria-hidden="true">
-                <span>Objetivo <strong>Morar</strong></span><span>Faixa <strong>R$ 450 mil</strong></span>
+                <span>Objetivo <strong>Morar</strong></span><span>Perfil <strong>Faixa definida</strong></span>
               </div>
               <h3>A IA qualifica de verdade</h3>
               <p>Entende orçamento, região, urgência e intenção sem soar como um roteiro engessado.</p>
@@ -389,6 +372,11 @@
           </ol>
         </div>
       </section>
+
+      <!--
+        PRICING TEMPORARIAMENTE DESATIVADO.
+        Valores comerciais do PiperKey Solo estão em revisão.
+        Reativar somente após aprovação comercial.
 
       <section class="section pricing-section" id="planos" data-pricing data-current-period="anual">
         <div class="container">
@@ -450,6 +438,7 @@
           <p class="pricing-footnote">Valores mensais conforme o período selecionado. O plano mensal não exige fidelidade mínima.</p>
         </div>
       </section>
+      -->
 
       <section class="section faq-section" id="faq">
         <div class="container faq-layout">
@@ -475,13 +464,13 @@
               <button type="button" data-faq-trigger data-faq-id="inicio" aria-expanded="true" aria-controls="faq-inicio">
                 <span>Estou começando, não tenho tanto lead assim</span><span class="faq-plus" aria-hidden="true"></span>
               </button>
-              <div id="faq-inicio" data-faq-panel><p>Por isso existe o plano Silver. O atendimento automático importa desde o seu primeiro lead — não só quando o volume aumenta.</p></div>
+              <div id="faq-inicio" data-faq-panel><p>O atendimento automático já ajuda desde o primeiro lead — não é preciso esperar o volume aumentar para organizar melhor a operação.</p></div>
             </div>
             <div class="faq-item">
               <button type="button" data-faq-trigger data-faq-id="banimento" aria-expanded="true" aria-controls="faq-banimento">
                 <span>E se meu WhatsApp for banido?</span><span class="faq-plus" aria-hidden="true"></span>
               </button>
-              <div id="faq-banimento" data-faq-panel><p>O disparo em massa do plano Gold roda só pelo canal oficial da Meta — sem risco de banimento do seu número pessoal.</p></div>
+              <div id="faq-banimento" data-faq-panel><p>Os recursos de comunicação que utilizam a Meta operam pelos canais oficiais disponíveis na plataforma.</p></div>
             </div>
             <div class="faq-item">
               <button type="button" data-faq-trigger data-faq-id="meta" aria-expanded="true" aria-controls="faq-meta">
@@ -508,7 +497,6 @@
             </a>
             <a class="button button-outline button-large" href="https://wa.me/%VITE_WHATSAPP_NUMBER%?text=Ol%C3%A1%21%20Quero%20agendar%20uma%20demonstra%C3%A7%C3%A3o%20do%20PiperKey%20Solo." data-cta="demo" data-placement="final">Agendar demonstração</a>
           </div>
-          <p class="final-note">Sem fidelidade mínima no plano mensal. Cancelamento simples.</p>
         </div>
       </section>
     </main>

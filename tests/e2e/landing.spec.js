@@ -19,7 +19,6 @@ test('renders the approved brand, content journey and primary conversion', async
     expect.stringContaining('cliente não sabe que você está ocupado'),
     expect.stringContaining('Atendimento sem limite'),
     expect.stringContaining('Experimente a Margot'),
-    expect.stringContaining('tamanho da sua operação'),
     expect.stringContaining('Antes de você perguntar'),
     expect.stringContaining('disponível o tempo todo'),
   ]);
@@ -47,18 +46,14 @@ test('renders the approved problem and final CTA copy exactly', async ({ page })
   );
 });
 
-test('switches plan prices and keeps the plan CTA contextual', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  const pricing = page.locator('#planos');
-  await pricing.scrollIntoViewIfNeeded();
-  await pricing.getByRole('button', { name: 'Mensal' }).click();
+test('keeps pricing out of the public page and general CTAs price-free', async ({ page }) => {
+  await expect(page.locator('#planos')).toHaveCount(0);
+  await expect(page.locator('[data-pricing]')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Planos', exact: true })).toHaveCount(0);
 
-  await expect(page.locator('[data-plan="silver"] [data-price]')).toHaveText('R$ 447');
-  await expect(page.locator('[data-plan="gold"] [data-price]')).toHaveText('R$ 547');
-  await expect(page.locator('[data-plan="gold"] [data-plan-cta]')).toHaveAttribute(
-    'href',
-    /plano%20Gold.*mensal.*547/,
-  );
+  for (const cta of await page.locator('[data-cta]').all()) {
+    expect(decodeURIComponent(await cta.getAttribute('href'))).not.toMatch(/R\$|397|497|mensal|trimestral|anual/i);
+  }
 });
 
 test('operates the FAQ by keyboard and keeps a single answer open', async ({ page }) => {
@@ -113,12 +108,12 @@ test('publishes a linked privacy page', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Política de Privacidade');
 });
 
-test('keeps annual prices and essential contact links usable without JavaScript', async ({ browser }) => {
+test('keeps essential contact links usable without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto('/');
 
-  await expect(page.locator('[data-plan="silver"] [data-price]')).toHaveText('R$\u00a0397');
+  await expect(page.locator('#planos')).toHaveCount(0);
   await expect(page.getByRole('link', { name: /Falar no WhatsApp/i }).first()).toHaveAttribute(
     'href',
     /wa\.me\/5548988049222/,
@@ -126,10 +121,6 @@ test('keeps annual prices and essential contact links usable without JavaScript'
   await expect(page.getByRole('link', { name: /Agendar demonstração/i }).first()).toHaveAttribute(
     'href',
     /wa\.me\/5548988049222.*agendar.*demonstra%C3%A7%C3%A3o/i,
-  );
-  await expect(page.getByRole('link', { name: 'Escolher Gold' })).toHaveAttribute(
-    'href',
-    /wa\.me\/5548988049222.*Gold.*anual/,
   );
 
   await context.close();
@@ -152,7 +143,7 @@ test('qualifies a lead through the interactive Margot journey', async ({ page })
   await page.keyboard.press('Enter');
   await demo.getByRole('button', { name: 'Morar', exact: true }).focus();
   await page.keyboard.press('Enter');
-  await demo.getByRole('button', { name: 'Até R$ 450 mil', exact: true }).click();
+  await demo.getByRole('button', { name: 'Faixa inicial', exact: true }).click();
   await demo.getByRole('button', { name: 'Quero visitar esta semana', exact: true }).click();
 
   await expect(demo).toHaveAttribute('data-demo-state', 'complete');
@@ -172,7 +163,7 @@ test('supports an alternate demo path and a clean restart', async ({ page }) => 
 
   await demo.getByRole('button', { name: 'Começar simulação' }).click();
   await demo.getByRole('button', { name: 'Investir', exact: true }).click();
-  await demo.getByRole('button', { name: 'Acima de R$ 700 mil', exact: true }).click();
+  await demo.getByRole('button', { name: 'Faixa ampliada', exact: true }).click();
   await demo.getByRole('button', { name: 'Ainda estou pesquisando', exact: true }).click();
   await expect(demo.locator('[data-demo-field="temperature"]')).toHaveText('Morno');
   await expect(demo.locator('[data-demo-field="nextAction"]')).toHaveText('Enviar opções semelhantes');
