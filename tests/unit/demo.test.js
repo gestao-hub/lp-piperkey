@@ -59,9 +59,9 @@ describe('interactive demo flow', () => {
   });
 
   test.each([
-    ['up-to-450', 'Até R$ 450 mil'],
-    ['450-to-700', 'R$ 450–700 mil'],
-    ['above-700', 'Acima de R$ 700 mil'],
+    ['up-to-450', 'Faixa inicial'],
+    ['450-to-700', 'Faixa intermediária'],
+    ['above-700', 'Faixa ampliada'],
   ])('maps the %s budget into the CRM profile', (optionId, expectedBudget) => {
     const session = createDemoSession();
     session.start();
@@ -201,7 +201,7 @@ describe('interactive demo UI', () => {
 
     expect(root.dataset.demoState).toBe('complete');
     expect(root.querySelector('[data-demo-field="objective"]').textContent).toBe('Morar');
-    expect(root.querySelector('[data-demo-field="budget"]').textContent).toBe('Até R$ 450 mil');
+    expect(root.querySelector('[data-demo-field="budget"]').textContent).toBe('Faixa inicial');
     expect(root.querySelector('[data-demo-field="temperature"]').textContent).toBe('Quente');
     expect(root.querySelector('[data-demo-field="nextAction"]').textContent).toBe('Sugerir horários de visita');
     expect(root.querySelector('[data-demo-column="qualified"] [data-demo-lead-card]')).not.toBeNull();
@@ -217,7 +217,7 @@ describe('interactive demo UI', () => {
       timing: 'visit-week',
       objective: 'Morar',
       region: 'Centro',
-      budget_range: 'Até R$ 450 mil',
+      budget_range: 'Faixa inicial',
       urgency: 'Alta',
       temperature: 'Quente',
       next_action: 'Sugerir horários de visita',
