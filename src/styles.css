@@ -3527,11 +3527,28 @@ body {
 }
 
 .hero-copy h1 {
-  max-width: 620px !important;
+  max-width: 600px !important;
   margin-bottom: 22px;
-  font-size: clamp(2.65rem, 4.25vw, 4.05rem) !important;
-  line-height: 1.06 !important;
-  letter-spacing: -0.047em !important;
+  font-size: clamp(2.55rem, 3.75vw, 3.65rem) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.043em !important;
+}
+
+.hero-copy h1 em {
+  color: #9a761d;
+  font-style: normal;
+}
+
+.site-header .brand > span,
+.hero-copy > .eyebrow {
+  color: #80631b;
+}
+
+.hero-note,
+.hero-demo-link,
+.phone-composer,
+.demo-composer-text {
+  color: #667085;
 }
 
 .hero-subtitle {
@@ -3600,13 +3617,44 @@ body {
 
 .phone-notch {
   position: absolute;
-  top: 5px;
+  top: -1px;
   left: 50%;
   width: 104px;
-  height: 25px;
-  border-radius: 0 0 16px 16px;
+  height: 27px;
+  border-radius: 0 0 17px 17px;
   background: #10141c;
   transform: translateX(-50%);
+}
+
+.phone-status-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.phone-status-icons svg {
+  width: 13px;
+  height: 10px;
+  fill: #111827;
+  stroke: #111827;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.35;
+}
+
+.phone-status-icons svg:first-child {
+  stroke: none;
+}
+
+.phone-status-icons .phone-battery {
+  width: 18px;
+  fill: none;
+  stroke-width: 1.2;
+}
+
+.phone-status-icons .phone-battery rect:last-child {
+  fill: #111827;
+  stroke: none;
 }
 
 .phone-chat-head {
@@ -3642,8 +3690,8 @@ body {
 }
 
 .phone-chat-body {
-  height: 430px;
-  padding: 18px 14px;
+  height: 423px;
+  padding: 18px 14px 20px;
   overflow: hidden;
   background: #f7f8fa;
   display: flex;
@@ -3695,13 +3743,14 @@ body {
 
 .phone-composer {
   position: absolute;
-  right: 12px;
-  bottom: 12px;
-  left: 12px;
-  min-height: 42px;
-  padding: 6px 6px 6px 12px;
-  border: 1px solid #dce2ea;
-  border-radius: 9px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  min-height: 55px;
+  padding: 7px 12px 7px 18px;
+  border: 0;
+  border-top: 1px solid #d8dee7;
+  border-radius: 0;
   background: #fff;
   color: #98a2b3;
   display: flex;
@@ -3713,12 +3762,21 @@ body {
 .phone-composer b {
   width: 30px;
   height: 30px;
-  border-radius: 7px;
+  border-radius: 50%;
   background: var(--navy-950);
   color: #fff;
   display: grid;
   place-items: center;
-  font-size: .66rem;
+}
+
+.phone-composer b svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
 }
 
 .hero-phone-note {
@@ -3733,11 +3791,26 @@ body {
 
 .hero-phone-note::before {
   position: absolute;
-  top: 9px;
-  width: 32px;
-  height: 1px;
-  background: #9ea8b7;
+  top: 4px;
+  width: 46px;
+  height: 24px;
+  border-top: 1.5px solid #9ea8b7;
+  border-left: 1.5px solid #9ea8b7;
+  border-radius: 70% 0 0;
   content: '';
+  transform: rotate(-8deg);
+  transform-origin: right top;
+}
+
+.hero-phone-note::after {
+  position: absolute;
+  top: 21px;
+  width: 7px;
+  height: 7px;
+  border-bottom: 1.5px solid #9ea8b7;
+  border-left: 1.5px solid #9ea8b7;
+  content: '';
+  transform: rotate(-32deg);
 }
 
 .hero-phone-note-one {
@@ -3759,6 +3832,12 @@ body {
 .hero-phone-note-two::before,
 .hero-phone-note-three::before {
   right: calc(100% + 10px);
+}
+
+.hero-phone-note-one::after,
+.hero-phone-note-two::after,
+.hero-phone-note-three::after {
+  right: calc(100% + 50px);
 }
 
 .problem-section {
@@ -3786,6 +3865,13 @@ body {
 
 .audience-heading {
   max-width: 850px;
+}
+
+.audience-heading p,
+.audience-item p,
+.creator-copy > p,
+.creator-note {
+  color: #626c7f;
 }
 
 .audience-heading h2 {
@@ -4013,4 +4099,29 @@ body {
     display: grid !important;
     gap: 7px !important;
   }
+}
+
+/* Final contrast guard for the light commercial theme. */
+.site-header .brand > span,
+.hero-copy > .eyebrow {
+  color: #765a13;
+}
+
+.hero-copy h1 em {
+  color: #947019 !important;
+}
+
+.hero-note,
+.hero-demo-link,
+.phone-composer,
+.phone-composer > span,
+.demo-composer-text {
+  color: #667085;
+}
+
+.audience-heading p,
+.audience-item p,
+.creator-copy > p,
+.creator-note {
+  color: #5e687b;
 }

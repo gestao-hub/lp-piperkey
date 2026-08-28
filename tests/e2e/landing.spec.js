@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 test('renders the approved brand, content journey and primary conversion', async ({ page }) => {
   await expect(page).toHaveTitle(/PiperKey Solo/);
   await expect(page.getByRole('img', { name: 'PiperKey' }).first()).toBeVisible();
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Atenda cada novo lead sem parar o que você está fazendo.');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Atenda mais, qualifique melhor e venda todos os dias.');
   await expect(page.locator('#para-quem')).toContainText('Você toca a operação de ponta a ponta');
   await expect(page.locator('#para-quem')).toContainText('Você já divide a operação com outras pessoas');
   await expect(page.getByRole('link', { name: /Quero conhecer o PiperKey|Falar no WhatsApp/i }).first()).toHaveAttribute(
@@ -61,8 +61,8 @@ test('keeps pricing out of the public page and general CTAs price-free', async (
 });
 
 test('operates the FAQ by keyboard and keeps a single answer open', async ({ page }) => {
-  const first = page.getByRole('button', { name: /Já tenho um CRM mais barato/i });
-  const second = page.getByRole('button', { name: /Não confio em robô/i });
+  const first = page.getByRole('button', { name: /atende leads do WhatsApp automaticamente/i });
+  const second = page.getByRole('button', { name: /inteligência artificial substitui o corretor/i });
 
   await first.focus();
   await page.keyboard.press('Enter');
@@ -87,6 +87,7 @@ test('loads no trackers before consent and both providers after acceptance', asy
 
 test('keeps the page free of serious accessibility violations', async ({ page }) => {
   await page.getByRole('button', { name: 'Recusar' }).click();
+  await page.locator('.hero-enter').evaluateAll((elements) => elements.flatMap((element) => element.getAnimations()).forEach((animation) => animation.finish()));
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations.filter((violation) => ['critical', 'serious'].includes(violation.impact))).toEqual([]);
 });
@@ -135,7 +136,7 @@ test('publishes valid robots directives for search crawlers', async ({ request }
 
   expect(response.ok()).toBe(true);
   expect(response.headers()['content-type']).toContain('text/plain');
-  expect(await response.text()).toBe('User-agent: *\nAllow: /\n');
+  expect((await response.text()).replace(/\r\n/g, '\n')).toBe('User-agent: *\nAllow: /\n');
 });
 
 test('qualifies a lead through the interactive Margot journey', async ({ page }) => {
