@@ -8,10 +8,9 @@ test.beforeEach(async ({ page }) => {
 test('renders the approved brand, content journey and primary conversion', async ({ page }) => {
   await expect(page).toHaveTitle(/PiperKey Solo/);
   await expect(page.getByRole('img', { name: 'PiperKey' }).first()).toBeVisible();
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Atenda mais');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('venda todos os dias');
-  await expect(page.locator('#para-quem')).toContainText('Corretor autônomo');
-  await expect(page.locator('#para-quem')).toContainText('Pequena imobiliária');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Atenda cada novo lead sem parar o que você está fazendo.');
+  await expect(page.locator('#para-quem')).toContainText('Você toca a operação de ponta a ponta');
+  await expect(page.locator('#para-quem')).toContainText('Você já divide a operação com outras pessoas');
   await expect(page.getByRole('link', { name: /Quero conhecer o PiperKey|Falar no WhatsApp/i }).first()).toHaveAttribute(
     'href',
     /wa\.me\/5548988049222/,
@@ -19,12 +18,12 @@ test('renders the approved brand, content journey and primary conversion', async
 
   const orderedHeadings = await page.locator('main h2').allTextContents();
   expect(orderedHeadings).toEqual(expect.arrayContaining([
-    expect.stringContaining('operação mais organizada'),
     expect.stringContaining('cliente não sabe que você está ocupado'),
-    expect.stringContaining('mesmo fluxo'),
-    expect.stringContaining('demonstração direta'),
+    expect.stringContaining('atendimento e venda disputam'),
     expect.stringContaining('Experimente a Margot'),
-    expect.stringContaining('Antes de você perguntar'),
+    expect.stringContaining('PiperKey entra na rotina'),
+    expect.stringContaining('atendimento não termina'),
+    expect.stringContaining('avaliando o PiperKey'),
     expect.stringContaining('disponível o tempo todo'),
   ]));
 });
