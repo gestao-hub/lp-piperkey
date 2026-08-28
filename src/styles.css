@@ -4176,3 +4176,20 @@ body {
 .margot-feature h3 {
   color: #ffffff !important;
 }
+
+@media (min-width: 1081px) {
+  .hero-phone-wrap {
+    left: -38px;
+  }
+
+  .hero-phone-note::before {
+    right: calc(100% + 8px);
+    width: 24px;
+    height: 21px;
+  }
+
+  .hero-phone-note::after {
+    right: calc(100% + 27px);
+    top: 17px;
+  }
+}
