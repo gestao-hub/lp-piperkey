@@ -178,6 +178,7 @@ test('qualifies a lead through the interactive Margot journey', async ({ page })
   const send = demo.getByRole('button', { name: 'Enviar resposta sugerida' });
   await expect(demo.locator('[data-demo-options]')).toBeHidden();
   await expect(demo.locator('[data-demo-composer-text]')).toHaveText('Quero comprar para morar.');
+  await expect(demo.locator('[data-demo-composer-hint]')).toBeVisible();
   await send.click();
   await expect(demo.locator('[data-demo-composer-text]')).toHaveText('Até R$ 700 mil.');
   await send.click();

@@ -378,12 +378,16 @@
                 </div>
                 <div class="demo-transcript" data-demo-transcript aria-label="Conversa simulada"></div>
                 <div class="demo-replies" data-demo-options hidden></div>
-                <button class="demo-composer" type="button" data-demo-composer data-demo-send-button disabled aria-label="Enviar resposta sugerida">
-                  <span class="demo-composer-text" data-demo-composer-text>Digite uma mensagem...</span>
-                  <span class="demo-send" data-demo-send aria-hidden="true">
-                    <svg viewBox="0 0 20 20"><path d="M3 10 17 3l-4 14-3-5-7-2Zm7 2 3-3" /></svg>
-                  </span>
-                </button>
+                <div class="demo-composer-area">
+                  <button class="demo-composer" type="button" data-demo-composer data-demo-send-button disabled aria-label="Enviar resposta sugerida">
+                    <span class="demo-composer-text" data-demo-composer-text>Digite uma mensagem...</span>
+                    <span class="demo-send" data-demo-send aria-hidden="true">
+                      <span>Enviar</span>
+                      <svg viewBox="0 0 20 20"><path d="M3 10 17 3l-4 14-3-5-7-2Zm7 2 3-3" /></svg>
+                    </span>
+                  </button>
+                  <small class="demo-composer-hint" data-demo-composer-hint hidden>Resposta pronta — clique em Enviar para continuar.</small>
+                </div>
                 <div class="demo-start-wrap">
                   <button class="button button-gold" type="button" data-demo-start>
                     Começar simulação

@@ -67,7 +67,7 @@ function renderDemoFixture() {
         <div data-demo-column="new"><b data-demo-count="new">1</b><article data-demo-lead-card><span data-demo-card-status>Novo</span></article></div>
         <div data-demo-column="qualified"><b data-demo-count="qualified">0</b></div>
       </section>
-      <button type="button" data-demo-composer disabled><span data-demo-composer-text></span><span data-demo-send></span></button>
+      <button type="button" data-demo-composer disabled><span data-demo-composer-text></span><span data-demo-send></span></button><small data-demo-composer-hint hidden></small>
       <div data-demo-complete hidden><p></p></div>
     </section>`;
   return document.querySelector('[data-interactive-demo]');
@@ -83,6 +83,7 @@ describe('interactive demo UI', () => {
     expect(root.dataset.demoState).toBe('active');
     expect(root.querySelector('[data-demo-composer-text]').textContent).toBe('Quero comprar para morar.');
     expect(root.querySelector('[data-demo-composer]').disabled).toBe(false);
+    expect(root.querySelector('[data-demo-composer-hint]').hidden).toBe(false);
     expect(root.querySelectorAll('[data-demo-option]')).toHaveLength(0);
     expect(track).toHaveBeenCalledWith('interactive_demo_start', { profile: 'corretor', scenario: 'apartment_centro' });
   });

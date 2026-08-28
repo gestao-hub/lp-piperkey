@@ -76,6 +76,7 @@ export function initializeInteractiveDemo({ root, windowRef, track, profile = 'c
   const startButton = root.querySelector('[data-demo-start]'); const restartButton = root.querySelector('[data-demo-restart]');
   const transcript = root.querySelector('[data-demo-transcript]'); const composer = root.querySelector('[data-demo-composer]');
   const composerText = root.querySelector('[data-demo-composer-text]'); const sendIndicator = root.querySelector('[data-demo-send]');
+  const composerHint = root.querySelector('[data-demo-composer-hint]');
   const liveRegion = root.querySelector('[data-demo-live]'); const progressBar = root.querySelector('[data-demo-progress-bar]');
   const progressLabel = root.querySelector('[data-demo-progress-label]'); const completion = root.querySelector('[data-demo-complete]');
   const leadCard = root.querySelector('[data-demo-lead-card]'); const leadStatus = root.querySelector('[data-demo-card-status]');
@@ -92,11 +93,12 @@ export function initializeInteractiveDemo({ root, windowRef, track, profile = 'c
     typingTimers.forEach((timer) => windowRef.clearTimeout(timer)); typingTimers.clear();
     if (composerText) composerText.textContent = COMPOSER_PLACEHOLDER;
     composer?.classList.remove('is-typing', 'is-ready', 'is-sending'); if (composer) composer.disabled = true;
+    if (composerHint) composerHint.hidden = true;
     sendIndicator?.classList.remove('is-active');
   }
   function prepareComposer(text) {
     resetComposer(); if (!composerText || !composer) return;
-    const markReady = () => { composer.classList.remove('is-typing'); composer.classList.add('is-ready'); composer.disabled = false; sendIndicator?.classList.add('is-active'); };
+    const markReady = () => { composer.classList.remove('is-typing'); composer.classList.add('is-ready'); composer.disabled = false; if (composerHint) composerHint.hidden = false; sendIndicator?.classList.add('is-active'); };
     if (reduceMotion) { composerText.textContent = text; markReady(); return; }
     composer.classList.add('is-typing'); composerText.textContent = '';
     const interval = Math.max(12, Math.floor(COMPOSER_TYPE_DURATION / Math.max(text.length, 1)));

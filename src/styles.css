@@ -3225,12 +3225,18 @@ body {
   box-shadow: none !important;
 }
 
+.demo-composer-area {
+  margin: 0 18px 18px;
+}
+
 .demo-composer {
   display: flex;
+  width: 100%;
+  box-sizing: border-box;
   min-height: 48px;
   align-items: center;
   gap: 10px;
-  margin: 0 18px 18px;
+  margin: 0;
   padding: 8px 8px 8px 14px;
   border: 1px solid #d8dee7;
   border-radius: 8px;
@@ -3269,15 +3275,22 @@ body {
 }
 
 .demo-send {
-  display: grid;
-  width: 34px;
+  display: flex;
+  width: 76px;
   height: 34px;
-  flex: 0 0 34px;
-  place-items: center;
+  flex: 0 0 76px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border-radius: 7px;
   background: #e8edf3;
   color: #8d98a8;
   transition: transform 140ms ease, background-color 140ms ease, color 140ms ease;
+}
+
+.demo-send > span {
+  font-size: .68rem;
+  font-weight: 750;
 }
 
 .demo-send svg {
@@ -3293,6 +3306,19 @@ body {
   background: var(--navy-950);
   color: #fff;
   transform: translateX(1px);
+}
+
+.demo-composer-hint {
+  display: block;
+  margin-top: 7px;
+  color: #667085;
+  font-size: .66rem;
+  font-weight: 650;
+  text-align: right;
+}
+
+.demo-composer-hint[hidden] {
+  display: none;
 }
 
 @keyframes solo-caret {
@@ -3397,7 +3423,7 @@ body {
     grid-template-columns: 118px 1fr;
   }
 
-  .demo-composer {
+  .demo-composer-area {
     margin: 0 14px 14px;
   }
 
@@ -4250,9 +4276,10 @@ button.demo-composer {
 }
 
 button.demo-composer.is-ready {
-  border-color: #aebbd0;
+  border-color: #c9a53c;
   background: #fff;
   cursor: pointer;
+  box-shadow: 0 0 0 3px rgb(210 174 67 / 12%);
 }
 
 button.demo-composer:disabled {
