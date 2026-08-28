@@ -5,6 +5,35 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
+test('defaults to realtor and supports profile state through the URL', async ({ page }) => {
+  const realtor = page.getByRole('button', { name: 'Corretor', exact: true });
+  const agency = page.getByRole('button', { name: 'Imobiliária', exact: true });
+  await expect(realtor).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Atenda mais');
+
+  await agency.click();
+  await expect(page).toHaveURL(/\?perfil=imobiliaria/);
+  await expect(agency).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('mesmo contexto');
+  await expect(page.locator('#problema')).toContainText('O atendimento sem dono');
+  await expect(page.locator('#para-quem')).toContainText('Sua venda já envolve mais de uma pessoa');
+  await expect(page.locator('[data-final-cta]')).toContainText('sem transformar o atendimento em bagunça');
+
+  await realtor.click();
+  await expect(page).toHaveURL(/\?perfil=corretor/);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Atenda mais');
+});
+
+test('loads explicit and invalid profile query values correctly', async ({ page }) => {
+  await page.goto('/?perfil=imobiliaria');
+  await expect(page.getByRole('button', { name: 'Imobiliária', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('mesmo contexto');
+
+  await page.goto('/?perfil=invalido');
+  await expect(page.getByRole('button', { name: 'Corretor', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Atenda mais');
+});
+
 test('renders the approved brand, content journey and primary conversion', async ({ page }) => {
   await expect(page).toHaveTitle(/PiperKey Solo/);
   await expect(page.getByRole('img', { name: 'PiperKey' }).first()).toBeVisible();
@@ -146,10 +175,14 @@ test('qualifies a lead through the interactive Margot journey', async ({ page })
 
   await demo.getByRole('button', { name: 'Começar simulação' }).focus();
   await page.keyboard.press('Enter');
-  await demo.getByRole('button', { name: 'Morar', exact: true }).focus();
-  await page.keyboard.press('Enter');
-  await demo.getByRole('button', { name: 'Faixa inicial', exact: true }).click();
-  await demo.getByRole('button', { name: 'Quero visitar esta semana', exact: true }).click();
+  const send = demo.getByRole('button', { name: 'Enviar resposta sugerida' });
+  await expect(demo.locator('[data-demo-options]')).toBeHidden();
+  await expect(demo.locator('[data-demo-composer-text]')).toHaveText('Quero comprar para morar.');
+  await send.click();
+  await expect(demo.locator('[data-demo-composer-text]')).toHaveText('Até R$ 700 mil.');
+  await send.click();
+  await expect(demo.locator('[data-demo-composer-text]')).toHaveText('Nos próximos 3 meses.');
+  await send.click();
 
   await expect(demo).toHaveAttribute('data-demo-state', 'complete');
   await expect(demo.locator('[data-demo-field="objective"]')).toHaveText('Morar');
@@ -161,17 +194,18 @@ test('qualifies a lead through the interactive Margot journey', async ({ page })
   );
 });
 
-test('supports an alternate demo path and a clean restart', async ({ page }) => {
+test('runs the team demo path and restarts cleanly', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.reload();
+  await page.goto('/?perfil=imobiliaria');
   const demo = page.locator('[data-interactive-demo]');
 
   await demo.getByRole('button', { name: 'Começar simulação' }).click();
-  await demo.getByRole('button', { name: 'Investir', exact: true }).click();
-  await demo.getByRole('button', { name: 'Faixa ampliada', exact: true }).click();
-  await demo.getByRole('button', { name: 'Ainda estou pesquisando', exact: true }).click();
-  await expect(demo.locator('[data-demo-field="temperature"]')).toHaveText('Morno');
-  await expect(demo.locator('[data-demo-field="nextAction"]')).toHaveText('Enviar opções semelhantes');
+  const send = demo.getByRole('button', { name: 'Enviar resposta sugerida' });
+  await expect(demo.locator('[data-demo-composer-text]')).toHaveText('Centro ou Agronômica.');
+  await send.click(); await send.click(); await send.click();
+  await expect(demo.locator('[data-demo-field="temperature"]')).toHaveText('Qualificado');
+  await expect(demo.locator('[data-demo-field="assignee"]')).toHaveText('Mariana');
+  await expect(demo.locator('[data-demo-field="nextAction"]')).toHaveText('Entrar em contato');
 
   await demo.getByRole('button', { name: 'Reiniciar simulação' }).click();
   await expect(demo).toHaveAttribute('data-demo-state', 'idle');

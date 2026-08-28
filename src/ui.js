@@ -75,13 +75,13 @@ export function initializeFaq({ root, track }) {
   });
 }
 
-export function initializeCtas({ root, config, track }) {
+export function initializeCtas({ root, config, track, getProfile = () => 'corretor' }) {
   root.querySelectorAll('[data-cta="whatsapp"]').forEach((link) => {
     link.href = buildGeneralWhatsAppUrl(config.whatsappNumber);
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.addEventListener('click', () => {
-      track('cta_whatsapp', { position: link.dataset.placement });
+      track('cta_whatsapp', { position: link.dataset.placement, profile: getProfile() });
     });
   });
 
@@ -93,7 +93,7 @@ export function initializeCtas({ root, config, track }) {
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.addEventListener('click', () => {
-      track('cta_demo', { position: link.dataset.placement });
+      track('cta_demo', { position: link.dataset.placement, profile: getProfile() });
     });
   });
 }

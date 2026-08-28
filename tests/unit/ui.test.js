@@ -111,8 +111,8 @@ describe('CTA links', () => {
     );
     whatsapp.click();
     demo.click();
-    expect(track).toHaveBeenCalledWith('cta_whatsapp', { position: 'hero' });
-    expect(track).toHaveBeenCalledWith('cta_demo', { position: 'hero' });
+    expect(track).toHaveBeenCalledWith('cta_whatsapp', { position: 'hero', profile: 'corretor' });
+    expect(track).toHaveBeenCalledWith('cta_demo', { position: 'hero', profile: 'corretor' });
   });
 });
 

@@ -2,6 +2,7 @@ import { createAnalytics } from './analytics.js';
 import { SITE_CONFIG } from './config.js';
 import { CONSENT_STATUS, createConsentManager } from './consent.js';
 import { initializeInteractiveDemo } from './demo.js';
+import { initializeProfileSelector } from './profile.js';
 import {
   initializeConsentControls,
   initializeCtas,
@@ -33,14 +34,19 @@ if (consentManager.getStatus() === CONSENT_STATUS.accepted) {
 
 const track = (eventName, parameters) => analytics.track(eventName, parameters);
 
-initializeCtas({ root: document, config: SITE_CONFIG, track });
+const profileController = initializeProfileSelector({ root: document, windowRef: window, track });
+const getProfile = () => profileController.getProfile();
+
+initializeCtas({ root: document, config: SITE_CONFIG, track, getProfile });
 initializePricing({ root: document, number: SITE_CONFIG.whatsappNumber, track });
 initializeFaq({ root: document, track });
-initializeInteractiveDemo({
+const interactiveDemo = initializeInteractiveDemo({
   root: document.querySelector('[data-interactive-demo]'),
   windowRef: window,
   track,
+  profile: getProfile(),
 });
+profileController.subscribe((profile) => interactiveDemo?.setProfile(profile));
 initializeConsentControls({ root: document, manager: consentManager });
 initializeReveals({ root: document, windowRef: window });
 initializeScrollDepth({ windowRef: window, documentRef: document, track });

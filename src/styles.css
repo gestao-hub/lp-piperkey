@@ -4197,3 +4197,129 @@ body {
     display: none;
   }
 }
+
+/* Profile context selector and deterministic composer. */
+.profile-switch {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid #d7dde6;
+  border-radius: 9px;
+  background: #f6f7f9;
+}
+
+.profile-switch button {
+  min-height: 32px;
+  padding: 5px 11px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #5e687b;
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 750;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.profile-switch button:hover {
+  color: var(--navy-950);
+}
+
+.profile-switch button.is-active {
+  background: var(--navy-950);
+  color: #fff;
+  box-shadow: 0 1px 2px rgb(9 24 50 / 12%);
+}
+
+.profile-switch button:focus-visible {
+  outline: 2px solid var(--solo-gold);
+  outline-offset: 2px;
+}
+
+.demo-replies[hidden] {
+  display: none !important;
+}
+
+button.demo-composer {
+  width: 100%;
+  appearance: none;
+  text-align: left;
+  font: inherit;
+}
+
+button.demo-composer.is-ready {
+  border-color: #aebbd0;
+  background: #fff;
+  cursor: pointer;
+}
+
+button.demo-composer:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+[data-profile="imobiliaria"] .hero-copy h1 {
+  max-width: 680px !important;
+  font-size: clamp(2.35rem, 3.35vw, 3.35rem) !important;
+}
+
+@media (max-width: 900px) {
+  .desktop-nav {
+    gap: 14px;
+  }
+
+  .profile-switch button {
+    padding-inline: 8px;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-header,
+  .header-inner {
+    min-height: 104px !important;
+  }
+
+  .header-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 7px 12px;
+    padding-block: 7px;
+  }
+
+  .site-header .brand {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  .header-cta {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .profile-switch {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+  }
+
+  .profile-switch button {
+    flex: 1 1 50%;
+  }
+
+  .hero {
+    padding-top: 128px !important;
+  }
+
+  [data-profile="imobiliaria"] .hero-copy h1 {
+    font-size: clamp(2.05rem, 9.7vw, 2.8rem) !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .hero {
+    padding-top: 122px !important;
+  }
+}
