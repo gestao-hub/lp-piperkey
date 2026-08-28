@@ -4125,3 +4125,54 @@ body {
 .creator-note {
   color: #5e687b;
 }
+
+/* Final commercial review: keep these refinements narrowly scoped. */
+.phone-status-icons svg:nth-child(2) {
+  fill: none;
+}
+
+.phone-status-icons svg:nth-child(2) circle {
+  fill: #111827;
+  stroke: none;
+}
+
+.hero-phone-note {
+  right: -125px;
+  width: 145px;
+}
+
+.hero-phone-note::before {
+  right: calc(100% + 18px);
+  width: 62px;
+  height: 27px;
+}
+
+.hero-phone-note::after {
+  right: calc(100% + 74px);
+  top: 23px;
+}
+
+.hero-phone-note-one {
+  top: 102px;
+}
+
+.hero-phone-note-two {
+  top: 278px;
+}
+
+.hero-phone-note-three {
+  top: 458px;
+}
+
+.pain-item {
+  border-top: 0 !important;
+}
+
+.margot-feature > div:nth-child(2) {
+  margin-top: 20px;
+  margin-bottom: auto;
+}
+
+.margot-feature h3 {
+  color: #ffffff !important;
+}
