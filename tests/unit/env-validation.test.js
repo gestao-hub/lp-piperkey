@@ -24,6 +24,18 @@ describe('production environment validation', () => {
     expect(errors[0]).toContain('VITE_WHATSAPP_NUMBER');
   });
 
+  test('can validate a preview subset without requiring analytics providers', () => {
+    const previewEnv = {
+      VITE_WHATSAPP_NUMBER: validEnv.VITE_WHATSAPP_NUMBER,
+      VITE_DEMO_URL: validEnv.VITE_DEMO_URL,
+      VITE_SITE_URL: validEnv.VITE_SITE_URL,
+    };
+
+    expect(validateEnvironment(previewEnv, {
+      requiredKeys: ['VITE_WHATSAPP_NUMBER', 'VITE_DEMO_URL', 'VITE_SITE_URL'],
+    })).toEqual([]);
+  });
+
   test('rejects invalid phone, URLs and tracking identifiers', () => {
     const errors = validateEnvironment({
       ...validEnv,
