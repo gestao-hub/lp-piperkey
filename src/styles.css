@@ -4185,11 +4185,11 @@ body {
   .hero-phone-note::before {
     right: calc(100% + 8px);
     top: 0;
-    width: 40px;
-    height: 28px;
+    width: 72px;
+    height: 32px;
     border: 0;
     border-radius: 0;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 28'%3E%3Cpath d='M39 2C21 2 6 6 6 21M2 17l4 5 5-4' fill='none' stroke='%239ea8b7' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 32'%3E%3Cpath d='M71 3C42 3 8 7 8 25M3 20l5 6 6-5' fill='none' stroke='%239ea8b7' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
     transform: none;
   }
 
