@@ -14,10 +14,10 @@ function isHttpsUrl(value) {
   }
 }
 
-export function validateEnvironment(env) {
+export function validateEnvironment(env, { requiredKeys = REQUIRED_PUBLIC_ENV } = {}) {
   const errors = [];
 
-  REQUIRED_PUBLIC_ENV.forEach((key) => {
+  requiredKeys.forEach((key) => {
     if (!env[key]?.trim()) errors.push(`${key} é obrigatória.`);
   });
 
