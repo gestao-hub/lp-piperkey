@@ -3446,3 +3446,55 @@ body {
     animation: none !important;
   }
 }
+
+
+/* Validation pass: contrast, fixed-header spacing and vertical-video anchoring */
+.site-header .brand span {
+  border-left-color: #d7dde6;
+}
+
+.hero {
+  padding-top: clamp(132px, 10vw, 164px) !important;
+}
+
+.hero .button-outline {
+  border-color: #bdc6d2 !important;
+  background: #fff !important;
+  color: var(--navy-950) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero .button-outline:hover {
+    border-color: var(--solo-gold) !important;
+    color: #80651b !important;
+    background: #fffdf7 !important;
+  }
+}
+
+.hero-proof {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.creator-video-frame {
+  position: relative;
+}
+
+.creator-video-ratio {
+  top: 16px;
+  left: 16px;
+  transform: none;
+}
+
+@media (max-width: 760px) {
+  .hero {
+    padding-top: 110px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .hero {
+    padding-top: 104px !important;
+  }
+}
