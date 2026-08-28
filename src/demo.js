@@ -158,7 +158,9 @@ export function createDemoSession() {
 }
 
 const INITIAL_MESSAGE = 'Olá! Vi que você se interessou pelo apartamento de 2 quartos no Centro.';
-const RESPONSE_DELAY = 650;
+const RESPONSE_DELAY = 560;
+const COMPOSER_TYPE_DURATION = 420;
+const COMPOSER_PLACEHOLDER = 'Digite uma mensagem...';
 
 function createMessage(documentRef, role, text) {
   const message = documentRef.createElement('p');
@@ -180,6 +182,9 @@ export function initializeInteractiveDemo({ root, windowRef, track }) {
   const restartButton = root.querySelector('[data-demo-restart]');
   const transcript = root.querySelector('[data-demo-transcript]');
   const options = root.querySelector('[data-demo-options]');
+  const composer = root.querySelector('[data-demo-composer]');
+  const composerText = root.querySelector('[data-demo-composer-text]');
+  const sendIndicator = root.querySelector('[data-demo-send]');
   const liveRegion = root.querySelector('[data-demo-live]');
   const progressBar = root.querySelector('[data-demo-progress-bar]');
   const progressLabel = root.querySelector('[data-demo-progress-label]');
@@ -191,6 +196,50 @@ export function initializeInteractiveDemo({ root, windowRef, track }) {
   const tabs = [...root.querySelectorAll('[data-demo-tab]')];
   const panels = [...root.querySelectorAll('[data-demo-panel]')];
   let pendingTimer = null;
+  const typingTimers = new Set();
+
+  function clearTypingTimers() {
+    typingTimers.forEach((timer) => windowRef.clearTimeout(timer));
+    typingTimers.clear();
+  }
+
+  function resetComposer() {
+    clearTypingTimers();
+    if (composerText) composerText.textContent = COMPOSER_PLACEHOLDER;
+    composer?.classList.remove('is-typing', 'is-ready', 'is-sending');
+    sendIndicator?.classList.remove('is-active');
+  }
+
+  function typeIntoComposer(text, onComplete) {
+    if (!composerText || reduceMotion) {
+      if (composerText) composerText.textContent = text;
+      onComplete();
+      return;
+    }
+
+    clearTypingTimers();
+    composer.classList.add('is-typing');
+    composerText.textContent = '';
+    const interval = Math.max(14, Math.floor(COMPOSER_TYPE_DURATION / Math.max(text.length, 1)));
+
+    [...text].forEach((char, index) => {
+      const timer = windowRef.setTimeout(() => {
+        typingTimers.delete(timer);
+        composerText.textContent += char;
+        if (index !== text.length - 1) return;
+        composer.classList.remove('is-typing');
+        composer.classList.add('is-ready');
+        sendIndicator?.classList.add('is-active');
+        const sendTimer = windowRef.setTimeout(() => {
+          typingTimers.delete(sendTimer);
+          composer.classList.add('is-sending');
+          onComplete();
+        }, 120);
+        typingTimers.add(sendTimer);
+      }, interval * (index + 1));
+      typingTimers.add(timer);
+    });
+  }
 
   function announce(message) {
     if (liveRegion) liveRegion.textContent = message;
@@ -302,26 +351,32 @@ export function initializeInteractiveDemo({ root, windowRef, track }) {
     options.querySelectorAll('button').forEach((button) => {
       button.disabled = true;
     });
-    transcript.append(createMessage(documentRef, 'visitor', result.option.visitorMessage));
-    scrollTranscriptToLatest();
     track('interactive_demo_step', { step: result.stepId, option: result.option.id });
 
-    if (reduceMotion) {
-      finishResponse(result);
-      return;
-    }
+    const sendVisitorMessage = () => {
+      transcript.append(createMessage(documentRef, 'visitor', result.option.visitorMessage));
+      scrollTranscriptToLatest();
+      resetComposer();
 
-    const typing = documentRef.createElement('div');
-    typing.dataset.demoTyping = '';
-    typing.className = 'demo-typing';
-    typing.setAttribute('aria-label', 'Margot está digitando');
-    typing.innerHTML = '<span></span><span></span><span></span>';
-    transcript.append(typing);
-    scrollTranscriptToLatest();
-    pendingTimer = windowRef.setTimeout(() => {
-      pendingTimer = null;
-      finishResponse(result);
-    }, RESPONSE_DELAY);
+      if (reduceMotion) {
+        finishResponse(result);
+        return;
+      }
+
+      const typing = documentRef.createElement('div');
+      typing.dataset.demoTyping = '';
+      typing.className = 'demo-typing';
+      typing.setAttribute('aria-label', 'Margot está digitando');
+      typing.innerHTML = '<span></span><span></span><span></span>';
+      transcript.append(typing);
+      scrollTranscriptToLatest();
+      pendingTimer = windowRef.setTimeout(() => {
+        pendingTimer = null;
+        finishResponse(result);
+      }, RESPONSE_DELAY);
+    };
+
+    typeIntoComposer(result.option.visitorMessage, sendVisitorMessage);
   }
 
   function renderIdle() {
@@ -329,6 +384,7 @@ export function initializeInteractiveDemo({ root, windowRef, track }) {
       windowRef.clearTimeout(pendingTimer);
       pendingTimer = null;
     }
+    resetComposer();
     const snapshot = session.restart();
     root.dataset.demoState = 'idle';
     root.dataset.demoTransitioning = 'false';
