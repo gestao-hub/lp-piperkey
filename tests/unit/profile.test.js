@@ -17,7 +17,7 @@ function renderProfileFixture() {
 
 describe('commercial profile', () => {
   test.each([
-    ['', 'corretor'], ['?perfil=corretor', 'corretor'], ['?perfil=imobiliaria', 'imobiliaria'], ['?perfil=invalido', 'corretor'],
+    ['', 'imobiliaria'], ['?perfil=corretor', 'corretor'], ['?perfil=imobiliaria', 'imobiliaria'], ['?perfil=invalido', 'imobiliaria'],
   ])('resolves %s as %s', (search, expected) => expect(resolveProfile(search)).toBe(expected));
 
   test('applies the team narrative without duplicating the page', () => {
@@ -36,12 +36,13 @@ describe('commercial profile', () => {
     window.history.replaceState({}, '', '/');
     const track = vi.fn();
     const controller = initializeProfileSelector({ root: document, windowRef: window, track });
-    document.querySelector('[data-profile-option="imobiliaria"]').click();
     expect(controller.getProfile()).toBe('imobiliaria');
-    expect(window.location.search).toBe('?perfil=imobiliaria');
-    expect(track).toHaveBeenCalledWith('profile_selected', { profile: 'imobiliaria' });
     document.querySelector('[data-profile-option="corretor"]').click();
-    expect(document.querySelector('.hero-copy h1').textContent).toContain('Atenda mais');
+    expect(controller.getProfile()).toBe('corretor');
     expect(window.location.search).toBe('?perfil=corretor');
+    expect(track).toHaveBeenCalledWith('profile_selected', { profile: 'corretor' });
+    expect(document.querySelector('.hero-copy h1').textContent).toContain('Atenda mais');
+    document.querySelector('[data-profile-option="imobiliaria"]').click();
+    expect(window.location.search).toBe('?perfil=imobiliaria');
   });
 });
