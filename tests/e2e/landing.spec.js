@@ -5,14 +5,9 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
-test('defaults to realtor and supports profile state through the URL', async ({ page }) => {
+test('defaults to agency and supports profile state through the URL', async ({ page }) => {
   const realtor = page.getByRole('button', { name: 'Corretor', exact: true });
   const agency = page.getByRole('button', { name: 'Imobiliária', exact: true });
-  await expect(realtor).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Atenda mais');
-
-  await agency.click();
-  await expect(page).toHaveURL(/\?perfil=imobiliaria/);
   await expect(agency).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('mesmo contexto');
   await expect(page.locator('#problema')).toContainText('O atendimento sem dono');
@@ -21,7 +16,12 @@ test('defaults to realtor and supports profile state through the URL', async ({ 
 
   await realtor.click();
   await expect(page).toHaveURL(/\?perfil=corretor/);
+  await expect(realtor).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Atenda mais');
+
+  await agency.click();
+  await expect(page).toHaveURL(/\?perfil=imobiliaria/);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('mesmo contexto');
 });
 
 test('loads explicit and invalid profile query values correctly', async ({ page }) => {
@@ -30,8 +30,8 @@ test('loads explicit and invalid profile query values correctly', async ({ page 
   await expect(page.getByRole('heading', { level: 1 })).toContainText('mesmo contexto');
 
   await page.goto('/?perfil=invalido');
-  await expect(page.getByRole('button', { name: 'Corretor', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Atenda mais');
+  await expect(page.getByRole('button', { name: 'Imobiliária', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('mesmo contexto');
 });
 
 test('renders the approved brand, content journey and primary conversion', async ({ page }) => {
@@ -145,7 +145,7 @@ test('publishes a linked privacy page', async ({ page }) => {
 test('keeps essential contact links usable without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto('/');
+  await page.goto('/?perfil=corretor');
 
   await expect(page.locator('#planos')).toHaveCount(0);
   await expect(page.getByRole('link', { name: /Falar no WhatsApp/i }).first()).toHaveAttribute(
@@ -230,7 +230,7 @@ test('exposes keyboard-operated demo tabs on mobile', async ({ page }) => {
 test('keeps the three-step explanation as the no-JavaScript fallback', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto('/');
+  await page.goto('/?perfil=corretor');
 
   await expect(page.locator('[data-demo-fallback]')).toBeVisible();
   await expect(page.locator('[data-demo-fallback] > li')).toHaveCount(3);
