@@ -122,7 +122,7 @@ export const PROFILE_CONTENT = Object.freeze({
 
 export function resolveProfile(search = '') {
   const requested = new URLSearchParams(search).get('perfil');
-  return requested === PROFILES.imobiliaria ? PROFILES.imobiliaria : PROFILES.corretor;
+  return requested === PROFILES.corretor ? PROFILES.corretor : PROFILES.imobiliaria;
 }
 
 function setText(root, selector, value) {
@@ -168,7 +168,7 @@ function updateList(root, selector, values) {
 }
 
 export function applyProfileContent({ root, profile }) {
-  const content = PROFILE_CONTENT[profile] ?? PROFILE_CONTENT.corretor;
+  const content = PROFILE_CONTENT[profile] ?? PROFILE_CONTENT.imobiliaria;
   root.documentElement.dataset.profile = profile;
   root.title = content.title;
   root.querySelector('meta[name="description"]')?.setAttribute('content', content.description);
@@ -223,7 +223,7 @@ export function initializeProfileSelector({ root, windowRef, track }) {
   const subscribers = new Set();
 
   function apply(profile, { updateUrl = false, emit = false } = {}) {
-    currentProfile = profile === PROFILES.imobiliaria ? PROFILES.imobiliaria : PROFILES.corretor;
+    currentProfile = profile === PROFILES.corretor ? PROFILES.corretor : PROFILES.imobiliaria;
     applyProfileContent({ root, profile: currentProfile });
 
     if (updateUrl) {
